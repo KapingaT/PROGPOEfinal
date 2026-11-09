@@ -1,0 +1,22 @@
+﻿<ul class="navbar-nav flex-grow-1">
+    @{
+        var role = Context.Session.GetString("UserRole");
+    }
+    @if (string.IsNullOrEmpty(role))
+    {
+        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register">Register</a></li>
+    }
+    else if (role == "Participant")
+    {
+        <li class="nav-item"><a class="nav-link" asp-controller="Participant" asp-action="Home">Upcoming Events</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Participant" asp-action="MyEnrollments">My Enrolments</a></li>
+        <li class="nav-item"><a class="nav-link text-danger" asp-controller="Account" asp-action="Logout">Logout</a></li>
+    }
+    else if (role == "Organiser")
+    {
+        <li class="nav-item"><a class="nav-link" asp-controller="Organiser" asp-action="Dashboard">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Organiser" asp-action="CreateEvent">Create Event</a></li>
+        <li class="nav-item"><a class="nav-link text-danger" asp-controller="Account" asp-action="Logout">Logout</a></li>
+    }
+</ul>
