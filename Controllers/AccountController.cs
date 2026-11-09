@@ -18,7 +18,7 @@ public class AccountController : Controller
         var result = await _apiService.LoginAsync(model);
         if (result == null)
         {
-            ModelState.AddModelError("", "Invalid email or password.");
+            ModelState.AddModelError("", "Inval5id email or password.");
             return View(model);
         }
 
