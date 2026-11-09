@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<header>
+    <!-- 1. The Big Brown Banner with the Logo -->
+    <div class="hero-banner text-center d-flex align-items-center justify-content-center">
+        <img src="~/images/raceday-logo.png" alt="Race Day Logo" class="logo-img" />
+    </div>
+
+    <!-- 2. The Navigation Bar underneath -->
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark box-shadow mb-3">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                <!-- PASTE YOUR ROLE-BASED <ul> NAVIGATION CODE HERE (from the previous step) -->
+
+            </div>
+        </div>
+    </nav>
+</header>
+<body>
+    <header>
+        <!-- Your Navigation Bar goes here -->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RacedayFINAL</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <!-- YOUR SESSION CODE IS PASTED HERE -->
+                    <ul class="navbar-nav flex-grow-1">
+                        @{
+                            var role = Context.Session.GetString("UserRole");
+                            // Get the current controller and action to highlight active links
+                            var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                            var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                        }
+
+                        @if (string.IsNullOrEmpty(role))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Login" ? "active text-dark fw-bold" : "")" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Register" ? "active text-dark fw-bold" : "")" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
+                        else if (role == "Participant")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Home" ? "active text-dark fw-bold" : "")" asp-controller="Participant" asp-action="Home">Upcoming Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "MyEnrollments" ? "active text-dark fw-bold" : "")" asp-controller="Participant" asp-action="MyEnrollments">My Enrolments</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "MyResults" ? "active text-dark fw-bold" : "")" asp-controller="Participant" asp-action="MyResults">My Results</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Profile" ? "active text-dark fw-bold" : "")" asp-controller="Participant" asp-action="Profile">Profile</a>
+                            </li>
+                        }
+                        else if (role == "Organiser")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Dashboard" ? "active text-dark fw-bold" : "")" asp-controller="Organiser" asp-action="Dashboard">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "CreateEvent" ? "active text-dark fw-bold" : "")" asp-controller="Organiser" asp-action="CreateEvent">Create Event</a>
+                            </li>
+                        }
+
+                        <!-- Logout is always on the right side -->
+                        @if (!string.IsNullOrEmpty(role))
+                        {
+                            <li class="nav-item ms-auto">
+                                <a class="nav-link text-danger fw-bold" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                    </ul>
+                    <!-- END OF YOUR SESSION CODE -->
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- THIS IS THE CONTAINER FOR YOUR PAGE CONTENT -->
+    <div class="container">
+        <main role="main" class="pb-3">
+
+            <!-- THIS IS THE MAGIC LINE THAT WAS MISSING! -->
+            @RenderBody()
+
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - RacedayFINAL - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

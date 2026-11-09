@@ -1,0 +1,41 @@
+﻿@model IEnumerable<RacedayFINAL.Models.MyEnrollmentViewModel>
+@{
+    ViewData["Title"] = "My Enrolments";
+}
+
+<h2>My Enrolments</h2>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Status / Result</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.Event</td>
+                <td>@e.EventDate.ToString("dd MMM yyyy")</td>
+                <td>@e.Category</td>
+                <td>
+                    @if (e.FinishTime != null)
+                    {
+                        <span class="badge bg-info text-dark">Finished: @e.FinishTime (@e.Position)</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Confirmed</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
