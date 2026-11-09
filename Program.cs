@@ -2,6 +2,12 @@ using RacedayFINAL.Services;
 using RaceDayMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+// Register the API Service and set the Base Address
+builder.Services.AddHttpClient<ApiService>(client =>
+{
+    // Set the Base Address here
+    client.BaseAddress = new Uri("https://localhost:7011"); // Change port to your API's port!
+});
 
 // 1. Add MVC
 builder.Services.AddControllersWithViews();
